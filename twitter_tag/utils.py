@@ -36,7 +36,7 @@ def urlize_tweet(tweet):
     for hash in tweet['entities']['hashtags']:
         text = text.replace('#%s' % hash['text'], TWITTER_HASHTAG_URL % (quote(hash['text']), hash['text']))
     for mention in tweet['entities']['user_mentions']:
-        text = text.replace('@%s' % mention['screen_name'], TWITTER_USERNAME_URL % (quote(mention['screen_name']), mention['screen_name']))
+        text = re.sub('@(%s)' % mention['screen_name'], TWITTER_USERNAME_URL % (quote(mention['screen_name']), r'\1'), text, flags=re.IGNORECASE)
     tweet['html'] = text
     return tweet
 
